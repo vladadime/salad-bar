@@ -1,0 +1,9 @@
+.small-img {
+    width: 100px;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+}
+
+svg {
+    cursor: pointer;
+}
