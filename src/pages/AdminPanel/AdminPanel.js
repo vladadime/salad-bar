@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {Pagination} from "../../components";
 import "./AdminPanel.css";
 import {ArrowUp, ArrowDown, PencilSquare, TrashFill} from 'react-bootstrap-icons';
@@ -68,9 +69,27 @@ const rows = [
     }
 ];
 const AdminPanel = () => {
+    const [currentPage,
+        setCurrentPage] = useState(1);
+    const [totalRecords,
+        setTotalRecords] = useState(rows.length);
+    
+    const perPage = 5;
     return (
         <div className="container">
-            <div className="table-responsive ">
+            <div className="table-responsive">
+                <div className="d-flex flex-row justify-content-center mt-5">
+                    <div className="col-md-4">
+                        <div className="d-flex mt-5">
+                            <input
+                                className="form-control"
+                                type="search"
+                                placeholder="Enter tag name"
+                                aria-label="Search"/>
+                            <button className="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
                 <table className="table align-middle my-5">
                     <thead>
                         <tr>
@@ -80,7 +99,9 @@ const AdminPanel = () => {
                         </tr>
                     </thead>
                     <tbody className="table-group-divider">
-                        {rows.map(row => {
+                        {rows.map((row, index) => {
+                            console.log(currentPage);
+                            if(perPage * (currentPage - 1) <= index && index < perPage * currentPage) {
                             return <tr key={row.id}>
                                 <td>{row.name}</td>
                                 <td><img className="small-img" src={row.image} alt=""/></td>
@@ -88,10 +109,15 @@ const AdminPanel = () => {
                                 <td>{row.tag}</td>
                                 <td><PencilSquare className="me-3 text-primary"/><TrashFill className="text-danger"/></td>
                             </tr>
+                            }
                         })}
                     </tbody>
                 </table>
-                <Pagination />
+                {totalRecords && <Pagination
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    totalRecords={totalRecords}
+                    perPage={perPage}/>}
             </div>
         </div>
     )
