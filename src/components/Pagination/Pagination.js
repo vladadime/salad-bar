@@ -1,33 +1,20 @@
-import {useState} from "react";
+import {useContext} from "react";
 import "./Pagination.css";
-const Pagination = ({currentPage, setCurrentPage, totalRecords, perPage}) => {
-    const [active,
-        setActive] = useState(1);
+import Context from "../../contexts/ContextProvider";
+const Pagination = ({currentPage, totalRecords, perPage}) => {
+    const {navigate} = useContext(Context);
     const totalPages = Math.ceil(totalRecords / perPage);
     const neighborNums = 3;
 
-    const navigate = (item) => {
-        if (item !== "...") {
-            setActive(item);
-            setCurrentPage(item);
-        }
-    }
-
     const nextPage = () => {
         if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-            setActive(currentPage + 1);
-        } else if (currentPage === totalPages) {
-            setActive(currentPage);
+            navigate(currentPage + 1);
         }
     }
 
     const prevPage = () => {
         if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-            setActive(currentPage - 1);
-        } else if (currentPage === 1) {
-            setActive(currentPage);
+            navigate(currentPage - 1);
         }
     }
 
@@ -62,23 +49,18 @@ const Pagination = ({currentPage, setCurrentPage, totalRecords, perPage}) => {
     return (
         <div id="pagination">
             <ul>
-                <li onClick={() => {
-                    navigate(1)
-                }}>&laquo;</li>
+                <li onClick={() => navigate(1)}>&laquo;</li>
                 <li onClick={prevPage}>&lsaquo;</li>
                 {totalPages && getPagNumbers().map((item, index) => (
                     <li
                         key={index}
                         onClick={() => navigate(item)}
-                        className={active === item
+                        className={currentPage === item
                         ? 'active'
                         : ''}>{item}</li>
                 ))}
                 <li onClick={nextPage}>&rsaquo;</li>
-                <li
-                    onClick={() => {
-                    navigate(totalPages)
-                }}>&raquo;</li>
+                <li onClick={() => navigate(totalPages)}>&raquo;</li>
             </ul>
         </div>
     )
