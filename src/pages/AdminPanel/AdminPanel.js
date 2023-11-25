@@ -3,6 +3,7 @@ import {Pagination} from "../../components";
 import "./AdminPanel.css";
 import {ArrowUp, ArrowDown, PencilSquare, TrashFill} from 'react-bootstrap-icons';
 import Context from "../../contexts/ContextProvider";
+import ModalDialog from "../../components/ModalDialog/ModalDialog";
 
 const columns = [
     {
@@ -26,7 +27,7 @@ const columns = [
 ];
 
 const AdminPanel = () => {
-    const {currentPage, ingredients, getIngredients} = useContext(Context);
+    const {currentPage, ingredients, getIngredients, modalDisplay, modalToggle} = useContext(Context);
     useEffect(() => {
         getIngredients();
     }, []);
@@ -36,8 +37,12 @@ const AdminPanel = () => {
         <div className="container">
             <div className="table-responsive">
                 <div className="d-flex flex-row justify-content-center mt-5">
-                    <div className="col-md-4">
-                        <div className="d-flex mt-5">
+                    <div className="col-4 col-md-3 mt-5">
+                        <button className="btn btn-primary" type="submit" onClick={() => modalToggle(true)}>Add new ingredient</button>
+                        <ModalDialog title="Add new ingredient" isOpen={modalDisplay} onClose={modalToggle} buttonActionLabel="Save" />
+                    </div>
+                    <div className="col-6 col-md-5 mt-5">
+                        <div className="d-flex">
                             <input
                                 className="form-control"
                                 type="search"
@@ -46,6 +51,7 @@ const AdminPanel = () => {
                             <button className="btn btn-primary" type="submit">Search</button>
                         </div>
                     </div>
+                    
                 </div>
                 <table className="table align-middle my-5">
                     <thead>

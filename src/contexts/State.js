@@ -6,6 +6,8 @@ import axios from "axios";
 import {
   NAVIGATE,
   GET_INGREDIENTS,
+  ADD_INGREDIENT,
+  MODAL_TOGGLE,
 } from "./types";
 const State = (props) => {
   const initialState = {
@@ -25,6 +27,13 @@ const State = (props) => {
     });
   };
 
+  const modalToggle = (data) => {
+    dispatch({
+      type: MODAL_TOGGLE,
+      payload: data,
+    });
+  };
+
   const getIngredients = async () => {
     let res = await axios.get(`${URL}ingredients`);
       dispatch({
@@ -41,7 +50,8 @@ const State = (props) => {
         active: state.active,
         currentPage: state.currentPage,
         navigate,
-        getIngredients
+        getIngredients,
+        modalToggle
       }}
     >
       {props.children}
