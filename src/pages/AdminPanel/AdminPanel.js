@@ -1,7 +1,7 @@
 import {useContext, useEffect} from "react";
 import {Pagination} from "../../components";
 import "./AdminPanel.css";
-import {ArrowUp, ArrowDown, PencilSquare, TrashFill} from 'react-bootstrap-icons';
+import {PencilSquare, TrashFill} from 'react-bootstrap-icons';
 import Context from "../../contexts/ContextProvider";
 import ModalDialog from "../../components/ModalDialog/ModalDialog";
 
@@ -27,7 +27,7 @@ const columns = [
 ];
 
 const AdminPanel = () => {
-    const {currentPage, ingredients, getIngredients, modalDisplay, modalToggle} = useContext(Context);
+    const {currentPage, ingredients, getIngredients, modalDisplay, modalToggle, sortIngredients} = useContext(Context);
     useEffect(() => {
         getIngredients();
     }, []);
@@ -57,7 +57,9 @@ const AdminPanel = () => {
                     <thead>
                         <tr>
                             {columns.map((column, index) => {
-                                return <th key={index}>{column.headerName} {column.sortable && <ArrowDown className="ms-2"/>}</th>
+                                return <th key={index}>
+                                    {column.sortable ? <span role="button" onClick={() => sortIngredients(ingredients, column.headerName.toLowerCase())}>{column.headerName}</span> : <span>{column.headerName}</span>}
+                                    </th>
                             })}
                         </tr>
                     </thead>
@@ -69,7 +71,10 @@ const AdminPanel = () => {
                                 <td><img className="small-img" src={row.image} alt=""/></td>
                                 <td>{row.calories}</td>
                                 <td>{row.tag}</td>
-                                <td><PencilSquare className="me-3 text-primary"/><TrashFill className="text-danger"/></td>
+                                <td>
+                                    <PencilSquare className="me-3 text-primary" onClick={() => modalToggle(true)}/>
+                                    <TrashFill className="text-danger"/>
+                                </td>
                             </tr>
                             }
                         })}

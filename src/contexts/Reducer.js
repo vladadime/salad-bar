@@ -1,8 +1,10 @@
 import {
-  NAVIGATE,
-  GET_INGREDIENTS,
   ADD_INGREDIENT,
-  MODAL_TOGGLE
+  GET_INGREDIENTS,
+  MODAL_TOGGLE,
+  NAVIGATE,
+  SORT_INGREDIENTS,
+  SORT_TOGGLE
 } from "./types";
 
 const ingredientReducer = (state, {
@@ -30,6 +32,16 @@ const ingredientReducer = (state, {
           ...state,
           ingredient: payload,
       };
+    case SORT_INGREDIENTS:
+      return {
+          ...state,
+          ingredients: payload,
+      };
+    case SORT_TOGGLE: 
+      return {
+        ...state,
+        order: payload,
+      }
     default:
       return state;
   }
