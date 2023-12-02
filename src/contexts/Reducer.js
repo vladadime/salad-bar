@@ -1,4 +1,5 @@
 import {
+  ACTIVE_MODAL,
   ADD_INGREDIENT,
   GET_INGREDIENTS,
   MODAL_TOGGLE,
@@ -12,6 +13,11 @@ const ingredientReducer = (state, {
   payload
 }) => {
   switch (type) {
+    case ACTIVE_MODAL: 
+      return {
+          ...state,
+          activeModal: payload,
+      };
     case NAVIGATE: 
       return {
           ...state,

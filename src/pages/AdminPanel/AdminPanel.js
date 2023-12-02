@@ -4,6 +4,7 @@ import "./AdminPanel.css";
 import {PencilSquare, TrashFill} from 'react-bootstrap-icons';
 import Context from "../../contexts/ContextProvider";
 import ModalDialog from "../../components/ModalDialog/ModalDialog";
+import { AddNewIngredientForm, EditIngredientForm } from "../../components/Form";
 
 const columns = [
     {
@@ -27,7 +28,7 @@ const columns = [
 ];
 
 const AdminPanel = () => {
-    const {currentPage, ingredients, getIngredients, modalDisplay, modalToggle, sortIngredients} = useContext(Context);
+    const {currentPage, ingredients, getIngredients, modalDisplay, modalToggle, sortIngredients, setActiveModal, activeModal} = useContext(Context);
     useEffect(() => {
         getIngredients();
     }, []);
@@ -38,8 +39,7 @@ const AdminPanel = () => {
             <div className="table-responsive">
                 <div className="d-flex flex-row justify-content-center mt-5">
                     <div className="col-4 col-md-3 mt-5">
-                        <button className="btn btn-primary" type="submit" onClick={() => modalToggle(true)}>Add new ingredient</button>
-                        <ModalDialog title="Add new ingredient" isOpen={modalDisplay} onClose={modalToggle} buttonActionLabel="Save" />
+                        <button className="btn btn-primary" type="submit" onClick={() => { modalToggle(true); setActiveModal({content: <AddNewIngredientForm />, title: "New ingredient", buttonActionLabel: "Save"}); }}>Add new ingredient</button>
                     </div>
                     <div className="col-6 col-md-5 mt-5">
                         <div className="d-flex">
@@ -72,14 +72,15 @@ const AdminPanel = () => {
                                 <td>{row.calories}</td>
                                 <td>{row.tag}</td>
                                 <td>
-                                    <PencilSquare className="me-3 text-primary" onClick={() => modalToggle(true)}/>
-                                    <TrashFill className="text-danger"/>
+                                    <PencilSquare className="me-3 text-primary" onClick={() => {modalToggle(true); setActiveModal({content: <EditIngredientForm ingredient={row} />, title: "Edit ingredient", buttonActionLabel: "Save"});}} />
+                                    <TrashFill className="text-danger" onClick={() => {modalToggle(true); setActiveModal({content: "Do you want delete " + row.name + "?", title: "Delete ingredient", buttonActionLabel: "Delete"});}} />
                                 </td>
                             </tr>
                             }
                         })}
                     </tbody>}
                 </table>
+                <ModalDialog isOpen={modalDisplay} onClose={modalToggle} modalContent={activeModal} />
                 {ingredients.length && <Pagination
                     currentPage={currentPage}
                     totalRecords={ingredients.length}

@@ -1,19 +1,19 @@
 import { Modal, Button } from 'react-bootstrap';
 
-const ModalDialog = ({title, isOpen, onClose, modalContent, buttonActionLabel}) => {
+const ModalDialog = ({isOpen, onClose, modalContent}) => {
 
   return (
     <>
       <Modal show={isOpen}>
         <Modal.Header>
-          <Modal.Title>{title}</Modal.Title>
+          <Modal.Title>{modalContent && modalContent.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {modalContent}
+          {modalContent && modalContent.content}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="dark">
-            {buttonActionLabel}
+            {modalContent && modalContent.buttonActionLabel}
           </Button>
           <Button variant="danger" onClick={() => onClose(false)}>
             Close

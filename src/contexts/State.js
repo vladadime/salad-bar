@@ -4,6 +4,7 @@ import Context from "./ContextProvider";
 import axios from "axios";
 
 import {
+  ACTIVE_MODAL,
   ADD_INGREDIENT,
   GET_INGREDIENTS,
   MODAL_TOGGLE,
@@ -13,7 +14,7 @@ import {
 } from "./types";
 const State = (props) => {
   const initialState = {
-    active: 1,
+    activeModal: null,
     currentPage: 1,
     modalDisplay: false,
     ingredients: [],
@@ -21,6 +22,13 @@ const State = (props) => {
   };
   const URL = "https://65341144e1b6f4c590468ad6.mockapi.io/salad-bar-api/";
   const [state, dispatch] = useReducer(Reducer, initialState);
+
+  const setActiveModal = (activeModal) => {
+    dispatch({
+      type: ACTIVE_MODAL,
+      payload: activeModal
+    });
+  }
 
   const navigate = (item) => {
     dispatch({
@@ -81,12 +89,13 @@ const State = (props) => {
   return (
     <Context.Provider
       value={{
+        activeModal: state.activeModal,
         modalDisplay: state.modalDisplay,
         ingredients: state.ingredients,
         language: state.language,
-        active: state.active,
         currentPage: state.currentPage,
         order: state.order,
+        setActiveModal,
         navigate,
         getIngredients,
         modalToggle,
