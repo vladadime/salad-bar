@@ -6,6 +6,8 @@ import axios from "axios";
 import {
   ACTIVE_MODAL,
   ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  EDIT_INGREDIENT,
   GET_INGREDIENTS,
   MODAL_TOGGLE,
   NAVIGATE,
@@ -16,25 +18,52 @@ const State = (props) => {
   const initialState = {
     activeModal: null,
     currentPage: 1,
-    modalDisplay: false,
     ingredients: [],
+    modalDisplay: false,
     order: "asc"
   };
   const URL = "https://65341144e1b6f4c590468ad6.mockapi.io/salad-bar-api/";
   const [state, dispatch] = useReducer(Reducer, initialState);
 
-  const setActiveModal = (activeModal) => {
+  const addIngredient = async (ingredient) => {
+    let res = await axios.post(`${URL}ingredients/${ingredient.id}`, ingredient).then((response)=> {
+      console.log(response);
+    }).catch((err) => {
+      console.error(err);
+    });
     dispatch({
-      type: ACTIVE_MODAL,
-      payload: activeModal
+      type: ADD_INGREDIENT,
+      payload: ingredient
     });
   }
 
-  const navigate = (item) => {
+  const deleteIngredient = async (id) => {
+    let res = await axios.delete(`${URL}ingredients/${id}`);
     dispatch({
-      type: NAVIGATE,
-      payload: item
+      type: DELETE_INGREDIENT,
+      payload: id
     });
+  }
+
+  const editIngredient = async(ingredient) => {
+    let res = await axios.put(`${URL}ingredients/${ingredient.id}`, ingredient).then((response)=> {
+      console.log(response);
+    }).catch((err) => {
+      console.error(err);
+    });
+    
+    dispatch({
+      type: EDIT_INGREDIENT,
+      payload: ingredient
+    });
+  }
+
+  const getIngredients = async () => {
+    let res = await axios.get(`${URL}ingredients`);
+      dispatch({
+        type: GET_INGREDIENTS,
+        payload: res.data
+      });
   };
 
   const modalToggle = (data) => {
@@ -44,13 +73,19 @@ const State = (props) => {
     });
   };
 
-  const getIngredients = async () => {
-    let res = await axios.get(`${URL}ingredients`);
-      dispatch({
-        type: GET_INGREDIENTS,
-        payload: res.data
-      });
+  const navigate = (item) => {
+    dispatch({
+      type: NAVIGATE,
+      payload: item
+    });
   };
+
+  const setActiveModal = (activeModal) => {
+    dispatch({
+      type: ACTIVE_MODAL,
+      payload: activeModal
+    });
+  }
 
   const sortIngredients = (ingredients, sortByColumn) => {
     if(!state.order) {
@@ -90,15 +125,17 @@ const State = (props) => {
     <Context.Provider
       value={{
         activeModal: state.activeModal,
-        modalDisplay: state.modalDisplay,
-        ingredients: state.ingredients,
-        language: state.language,
         currentPage: state.currentPage,
+        ingredients: state.ingredients,
+        modalDisplay: state.modalDisplay,
         order: state.order,
-        setActiveModal,
-        navigate,
+        addIngredient,
+        deleteIngredient,
+        editIngredient,
         getIngredients,
         modalToggle,
+        navigate,
+        setActiveModal,
         sortIngredients,
         sortToggle
       }}

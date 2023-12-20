@@ -1,6 +1,8 @@
 import {
   ACTIVE_MODAL,
   ADD_INGREDIENT,
+  DELETE_INGREDIENT,
+  EDIT_INGREDIENT,
   GET_INGREDIENTS,
   MODAL_TOGGLE,
   NAVIGATE,
@@ -18,25 +20,37 @@ const ingredientReducer = (state, {
           ...state,
           activeModal: payload,
       };
-    case NAVIGATE: 
+    case ADD_INGREDIENT: 
       return {
           ...state,
-          currentPage: payload,
+          ingredients: [...state.ingredients, payload],
+      };
+    case DELETE_INGREDIENT: 
+      return {
+          ...state,
+          ingredients: state.ingredients.filter((ingredient) => ingredient.id !== payload),
+      };
+      case EDIT_INGREDIENT:
+        return {
+          ...state,
+          ingredients: state.ingredients.map((item) =>
+            item.id === payload.id ? { ...item, ...payload } : item
+          ),
+        };
+    case GET_INGREDIENTS: 
+      return {
+          ...state,
+          ingredients: payload,
       };
     case MODAL_TOGGLE: 
       return {
           ...state,
           modalDisplay: payload,
       };
-    case GET_INGREDIENTS: 
+    case NAVIGATE: 
       return {
           ...state,
-          ingredients: payload,
-      };
-    case ADD_INGREDIENT: 
-      return {
-          ...state,
-          ingredient: payload,
+          currentPage: payload,
       };
     case SORT_INGREDIENTS:
       return {
