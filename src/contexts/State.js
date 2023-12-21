@@ -26,7 +26,7 @@ const State = (props) => {
   const [state, dispatch] = useReducer(Reducer, initialState);
 
   const addIngredient = async (ingredient) => {
-    let res = await axios.post(`${URL}ingredients/${ingredient.id}`, ingredient).then((response)=> {
+    let res = await axios.post(`${URL}ingredients/`, ingredient).then((response)=> {
       console.log(response);
     }).catch((err) => {
       console.error(err);

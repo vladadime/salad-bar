@@ -1,7 +1,7 @@
 const EditIngredientForm = ({ingredient, handleFormSubmit, handleFormChange}) => {
-    
+
   return (
-    <form onSubmit={(event) => handleFormSubmit(event)}>
+    <form onSubmit={() => handleFormSubmit()}>
         <div className="mb-3">
             <label htmlFor="name" className="form-label">Name</label>
             <input

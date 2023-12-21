@@ -54,13 +54,11 @@ const ModalDialog = ({isOpen, onClose, modalContent}) => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = () => {
     if(modalContent.type === "deleteIngredient") {
-
+      deleteIngredient(modalContent.data.id);
     } else {
       const ingredient = {
-        "id": modalContent.data.id,
-        "createdAt": modalContent.data.createdAt,
         "name": ingredientName,
         "image": ingredientImage,
         "calories": ingredientCalories,
@@ -76,6 +74,8 @@ const ModalDialog = ({isOpen, onClose, modalContent}) => {
       if(modalContent.type === "addIngredient") {
         addIngredient(ingredient);
       } else if(modalContent.type === "editIngredient") {
+        ingredient.id = modalContent.data.id;
+        ingredient.createdAt = modalContent.data.createdAt;
         editIngredient(ingredient);
       }
 
