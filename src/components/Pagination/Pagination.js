@@ -20,8 +20,8 @@ const Pagination = ({currentPage, totalRecords, perPage}) => {
 
     const getPagNumbers = () => {
         const pagNumbers = [];
-        if(totalPages <= 3) {
-            for(let i = 0; i < totalPages; i++) {
+        if (totalPages <= 3) {
+            for (let i = 0; i < totalPages; i++) {
                 pagNumbers.push(i + 1);
             }
         } else if (currentPage < neighborNums) {

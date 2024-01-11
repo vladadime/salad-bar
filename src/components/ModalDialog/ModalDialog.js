@@ -64,7 +64,6 @@ const ModalDialog = ({isOpen, onClose, modalContent}) => {
         "calories": ingredientCalories,
         "tag": ingredientTag,
       };
-      console.log(ingredient);
 
       if(!ingredientName || !ingredientCalories) {
         // throw new Error("You must to fill this fields");
