@@ -34,30 +34,38 @@ const State = (props) => {
         let res = await axios
             .post(`${URL}ingredients/`, ingredient)
             .then((response) => {
-                console.log(response);
+                if (response) {
+                    if (response.data) {
+                        dispatch({type: ADD_INGREDIENT, payload: response.data});
+                    }
+                }
             })
             .catch((err) => {
                 console.error(err);
-            });
-        dispatch({type: ADD_INGREDIENT, payload: ingredient});
+            });        
     }
 
     const deleteIngredient = async(id) => {
-        let res = await axios.delete(`${URL}ingredients/${id}`);
-        dispatch({type: DELETE_INGREDIENT, payload: id});
+        let res = await axios.delete(`${URL}ingredients/${id}`).then((response) => {
+            dispatch({type: DELETE_INGREDIENT, payload: id});
+        }).catch((err) => {
+            console.error(err);
+        });
     }
 
     const editIngredient = async(ingredient) => {
         let res = await axios
             .put(`${URL}ingredients/${ingredient.id}`, ingredient)
             .then((response) => {
-                console.log(response);
+                if (response) {
+                    if (response.data) {
+                        dispatch({type: EDIT_INGREDIENT, payload: response.data});
+                    }
+                }
             })
             .catch((err) => {
                 console.error(err);
             });
-
-        dispatch({type: EDIT_INGREDIENT, payload: ingredient});
     }
 
     const getIngredients = async() => {
@@ -73,7 +81,6 @@ const State = (props) => {
             .catch((err) => {
                 console.log(err);
             });
-
     };
 
     const modalToggle = (data) => {
@@ -81,7 +88,9 @@ const State = (props) => {
     };
 
     const navigate = (item) => {
-        dispatch({type: NAVIGATE, payload: item});
+        if(typeof item === "number") {
+            dispatch({type: NAVIGATE, payload: item});
+        }
     };
 
     const setActiveModal = (activeModal) => {

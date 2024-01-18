@@ -28,17 +28,17 @@ const columns = [
 
 const AdminPanel = () => {
     const {
+        activeModal,
         currentPage,
-        ingredients,
         filters,
+        filterSearch,
+        filterToggle,
         getIngredients,
+        ingredients,
         modalDisplay,
         modalToggle,
-        sortIngredients,
         setActiveModal,
-        activeModal,
-        filterToggle,
-        filterSearch,
+        sortIngredients,
         searchText
     } = useContext(Context);
     const [tags,
@@ -61,9 +61,8 @@ const AdminPanel = () => {
 
             setTags(newTags);
         };
-
         getTags();
-    }, [ingredients]);
+    }, [ingredients, tags]);
 
     const getFilteredIngredients = () => {
         let output = ingredients;

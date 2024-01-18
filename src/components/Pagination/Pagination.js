@@ -20,7 +20,7 @@ const Pagination = ({currentPage, totalRecords, perPage}) => {
 
     const getPagNumbers = () => {
         const pagNumbers = [];
-        if (totalPages <= 3) {
+        if (totalPages <= neighborNums) {
             for (let i = 0; i < totalPages; i++) {
                 pagNumbers.push(i + 1);
             }
@@ -31,8 +31,10 @@ const Pagination = ({currentPage, totalRecords, perPage}) => {
             pagNumbers.push("...");
             pagNumbers.push(totalPages);
         } else if (totalPages - currentPage < neighborNums) {
-            for (let i = 0; i < neighborNums + 1; i++) {
-                pagNumbers.push(totalPages - neighborNums + i);
+            pagNumbers.push(1);
+            pagNumbers.push("...");
+            for (let i = 0; i < neighborNums; i++) {
+                pagNumbers.push(totalPages - neighborNums + i + 1);
             }
         } else {
             const mid = Math.floor(neighborNums / 2);
