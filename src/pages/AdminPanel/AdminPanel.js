@@ -74,9 +74,8 @@ const AdminPanel = () => {
             });
         }
 
-        if (searchText.length > 0) {
-            output = output.filter((item) => item.name.toLowerCase().includes(searchText));
-        }
+        item.name.toLowerCase().startsWith(searchText),
+      )
 
         return output;
     };
