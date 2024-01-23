@@ -132,10 +132,16 @@ const State = (props) => {
         } else {
             newFilters.push(filter);
         }
+        if(newFilters.length > 0) {
+            navigate(1);
+        }
         dispatch({type: FILTER_TOGGLE, payload: newFilters});
     };
 
     const filterSearch = (event) => {
+        if(event.target.value.length > 0) {
+            navigate(1);
+        }
         dispatch({type: FILTER_SEARCH, payload: event.target.value});
     };
 
