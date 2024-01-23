@@ -28,7 +28,6 @@ const columns = [
 const AdminPanel = () => {
   const {
     activeModal,
-    currentPage,
     filters,
     filterSearch,
     filterToggle,
@@ -77,7 +76,7 @@ const AdminPanel = () => {
 
     return output
   }
-  
+
   return (
     <div className='container-fluid'>
       <div className='d-flex mx-5'>
