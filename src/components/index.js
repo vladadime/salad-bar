@@ -6,3 +6,5 @@ export {default as Footer}
 from './Footer/Footer';
 export {default as Pagination}
 from './Pagination/Pagination';
+export {default as Table}
+from './Table/Table';
