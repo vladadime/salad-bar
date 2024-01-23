@@ -24,7 +24,6 @@ const State = (props) => {
         ingredients: [],
         modalDisplay: false,
         order: "asc",
-        salads: [],
         searchText: ""
     };
     const URL = "https://65341144e1b6f4c590468ad6.mockapi.io/salad-bar-api/";
@@ -140,6 +139,7 @@ const State = (props) => {
     };
 
     const sortToggle = (data) => {
+        console.log(data);
         dispatch({type: SORT_TOGGLE, payload: data});
     };
     return (
@@ -151,7 +151,6 @@ const State = (props) => {
             ingredients: state.ingredients,
             modalDisplay: state.modalDisplay,
             order: state.order,
-            salads: state.salads,
             searchText: state.searchText,
             addIngredient,
             deleteIngredient,
