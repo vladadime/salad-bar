@@ -101,7 +101,7 @@ const ModalDialog = ({isOpen, onClose, modalContent}) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="dark" onClick={() => { handleFormSubmit(); onClose(false); }}>
-            {modalContent && modalContent.type === "deleteIngredient" ? "Delete" : "Save"}
+            {modalContent && modalContent.type.includes("delete") ? "Delete" : "Save"}
           </Button>
           <Button variant="danger" onClick={() => onClose(false)}>
             Close
