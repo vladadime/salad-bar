@@ -3,14 +3,16 @@ import Context from '../../contexts/ContextProvider'
 import { PencilSquare, TrashFill } from 'react-bootstrap-icons'
 import Pagination from '../Pagination/Pagination'
 
-const Table = ({ actions, data, headCols, sort }) => {
+const Table = ({ actions, data, headCols, sort, selectable, checkedItems, handleCheckboxChange }) => {
   const { currentPage, modalToggle, setActiveModal } = useContext(Context)
   const perPage = 5
+
   return (
     <div>
       <table className='table align-middle my-5'>
         <thead>
           <tr>
+            {selectable && <th></th>}
             {headCols.map((column, index) => (
               <th key={index}>
                 {column.sortable && sort ? (
@@ -38,6 +40,11 @@ const Table = ({ actions, data, headCols, sort }) => {
               ) {
                 return (
                   <tr key={row.id}>
+                    {selectable && (
+                      <td>
+                        <input type='checkbox' checked={checkedItems[row.name] && checkedItems[row.name].checked ? true: false} value={row.name} onChange={(e) => handleCheckboxChange(row)} />
+                      </td>
+                    )}
                     <td>{row.name}</td>
                     <td>
                       <img className='small-img' src={row.image} alt='' />
