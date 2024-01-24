@@ -1,94 +1,118 @@
-import { useContext, useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { AddNewIngredientForm, EditIngredientForm } from '../Form';
-import Context from '../../contexts/ContextProvider';
+import { useContext, useEffect, useState } from 'react'
+import { Modal, Button } from 'react-bootstrap'
+import {
+  AddNewIngredientForm,
+  AddNewSaladForm,
+  EditIngredientForm,
+} from '../Form'
+import Context from '../../contexts/ContextProvider'
 
-const ModalDialog = ({isOpen, onClose, modalContent}) => {
-  const {addIngredient, editIngredient, deleteIngredient} = useContext(Context);
-  const [title, setTitle] = useState("");
-  const [ingredientName, setIngredientName] = useState("");
-  const [ingredientImage, setIngredientImage] = useState("");
-  const [ingredientCalories, setIngredientCalories] = useState(0);
-  const [ingredientTag, setIngredientTag] = useState("");
+const ModalDialog = ({ isOpen, onClose, modalContent }) => {
+  const { addIngredient, editIngredient, deleteIngredient } =
+    useContext(Context)
+  const [title, setTitle] = useState('')
+  const [ingredientName, setIngredientName] = useState('')
+  const [ingredientImage, setIngredientImage] = useState('')
+  const [ingredientCalories, setIngredientCalories] = useState(0)
+  const [ingredientTag, setIngredientTag] = useState('')
   useEffect(() => {
+    const getTitle = async () => {
+      if (modalContent) {
+        if (modalContent.type === 'addIngredient') {
+          setTitle('Add ingredient')
+        } else if (modalContent.type === 'editIngredient') {
+          setTitle('Edit ingredient')
+          setIngredientName(modalContent.data.name)
+          setIngredientImage(modalContent.data.image)
+          setIngredientCalories(modalContent.data.calories)
+          setIngredientTag(modalContent.data.tag)
+        } else if (modalContent.type === 'deleteIngredient') {
+          setTitle('Delete ingredient')
+        } else if(modalContent.type === 'addSalad') {
+          setTitle('Add salad')
+        }
+      }
+    }
+    getTitle()
+  }, [modalContent])
 
-    const getTitle = async() => {
-    if(modalContent) {
-      if(modalContent.type === "addIngredient") {
-        setTitle("Add ingredient");
-      } else if(modalContent.type === "editIngredient") {
-        setTitle("Edit ingredient");
-        setIngredientName(modalContent.data.name);
-        setIngredientImage(modalContent.data.image);
-        setIngredientCalories(modalContent.data.calories);
-        setIngredientTag(modalContent.data.tag);
-      } else if(modalContent.type === "deleteIngredient") {
-        setTitle("Delete ingredient");
+  const getContent = () => {
+    if (modalContent) {
+      if (modalContent.type === 'addIngredient') {
+        return (
+          <AddNewIngredientForm
+            handleFormSubmit={handleFormSubmit}
+            handleFormChange={handleFormChange}
+          />
+        )
+      } else if (modalContent.type === 'editIngredient') {
+        return (
+          <EditIngredientForm
+            ingredient={modalContent.data}
+            handleFormSubmit={handleFormSubmit}
+            handleFormChange={handleFormChange}
+          />
+        )
+      } else if (modalContent.type === 'deleteIngredient') {
+        return `Do you want delete ${modalContent.data.name}?`
+      } else if (modalContent.type === 'addSalad') {
+        return (
+          <AddNewSaladForm
+            handleFormSubmit={handleFormSubmit}
+            handleFormChange={handleFormChange}
+            ingredients={modalContent.data}
+          />
+        )
       }
     }
   }
-  getTitle();
-  }, [modalContent]);
-
-  const getContent = () => {
-    if(modalContent) {
-      if(modalContent.type === "addIngredient") {
-        return <AddNewIngredientForm handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} />;
-      } else if(modalContent.type === "editIngredient") {
-        return <EditIngredientForm ingredient={modalContent.data} handleFormSubmit={handleFormSubmit} handleFormChange={handleFormChange} />;
-      } else if(modalContent.type === "deleteIngredient") {
-        return `Do you want delete ${modalContent.data.name}?`;
-      }
-    }
-  };
 
   const handleFormChange = (e) => {
-    if(e.id === "name") {
-      setIngredientName(e.value);
-    } else if(e.id === "image") {
-      setIngredientImage(e.value);
-    } else if(e.id === "calories") {
-      setIngredientCalories(e.value);
-    } else if(e.id === "tag") {
-      setIngredientTag(e.value);
+    if (e.id === 'name') {
+      setIngredientName(e.value)
+    } else if (e.id === 'image') {
+      setIngredientImage(e.value)
+    } else if (e.id === 'calories') {
+      setIngredientCalories(e.value)
+    } else if (e.id === 'tag') {
+      setIngredientTag(e.value)
     }
-  };
+  }
 
   const handleFormSubmit = () => {
-    if(modalContent.type === "deleteIngredient") {
-      deleteIngredient(modalContent.data.id);
+    if (modalContent.type === 'deleteIngredient') {
+      deleteIngredient(modalContent.data.id)
     } else {
       const ingredient = {
-        "name": ingredientName,
-        "image": ingredientImage,
-        "calories": ingredientCalories,
-        "tag": ingredientTag,
-      };
+        name: ingredientName,
+        image: ingredientImage,
+        calories: ingredientCalories,
+        tag: ingredientTag,
+      }
 
-      if(!ingredientName || !ingredientCalories) {
+      if (!ingredientName || !ingredientCalories) {
         // throw new Error("You must to fill this fields");
-        console.log("You must to fill this fields");
+        console.log('You must to fill this fields')
       }
 
-      if(modalContent.type === "addIngredient") {
-        addIngredient(ingredient);
-      } else if(modalContent.type === "editIngredient") {
-        ingredient.id = modalContent.data.id;
-        ingredient.createdAt = modalContent.data.createdAt;
-        editIngredient(ingredient);
+      if (modalContent.type === 'addIngredient') {
+        addIngredient(ingredient)
+      } else if (modalContent.type === 'editIngredient') {
+        ingredient.id = modalContent.data.id
+        ingredient.createdAt = modalContent.data.createdAt
+        editIngredient(ingredient)
       }
 
-      resetFormValues();
+      resetFormValues()
     }
-
-  };
+  }
 
   const resetFormValues = () => {
-    setIngredientName("");
-    setIngredientImage("");
-    setIngredientCalories(0);
-    setIngredientTag("");
-  };
+    setIngredientName('')
+    setIngredientImage('')
+    setIngredientCalories(0)
+    setIngredientTag('')
+  }
 
   return (
     <>
@@ -96,20 +120,26 @@ const ModalDialog = ({isOpen, onClose, modalContent}) => {
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {getContent()}
-        </Modal.Body>
+        <Modal.Body>{getContent()}</Modal.Body>
         <Modal.Footer>
-        <Button variant="danger" onClick={() => onClose(false)}>
+          <Button variant='danger' onClick={() => onClose(false)}>
             Close
           </Button>
-          <Button variant="dark" onClick={() => { handleFormSubmit(); onClose(false); }}>
-            {modalContent && modalContent.type.includes("delete") ? "Delete" : "Save"}
+          <Button
+            variant='dark'
+            onClick={() => {
+              handleFormSubmit()
+              onClose(false)
+            }}
+          >
+            {modalContent && modalContent.type.includes('delete')
+              ? 'Delete'
+              : 'Save'}
           </Button>
         </Modal.Footer>
       </Modal>
     </>
   )
-};
+}
 
-export default ModalDialog;
+export default ModalDialog
