@@ -41,6 +41,7 @@ const AdminPanel = () => {
     searchText,
   } = useContext(Context)
   const [tags, setTags] = useState([])
+  const [checkedItems, setCheckedItems] = useState({})
   useEffect(() => {
     getIngredients()
   }, [])
@@ -77,6 +78,21 @@ const AdminPanel = () => {
 
     return output
   }
+
+  const handleCheckboxChange = (item) => {
+    setCheckedItems((prevCheckedItems) => {
+      const newCheckedItems = { ...prevCheckedItems };
+
+      if (newCheckedItems[item.name]) {
+        delete newCheckedItems[item.name];
+      } else {
+        newCheckedItems[item.name] = item;
+        newCheckedItems[item.name].checked = true;
+      }
+
+      return newCheckedItems;
+    });
+  };
   
   return (
     <div className='container-fluid'>
@@ -138,6 +154,9 @@ const AdminPanel = () => {
               edit: 'editIngredient',
             }}
             sort={sortIngredients}
+            selectable={true}
+            checkedItems={checkedItems}
+            handleCheckboxChange={handleCheckboxChange}
           />
         </div>
       </div>
