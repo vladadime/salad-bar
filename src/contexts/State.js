@@ -146,9 +146,9 @@ const State = (props) => {
   }
 
   const sortToggle = (data) => {
-    console.log(data)
     dispatch({ type: SORT_TOGGLE, payload: data })
   }
+
   return (
     <Context.Provider
       value={{
