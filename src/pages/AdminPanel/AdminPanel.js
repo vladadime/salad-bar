@@ -42,6 +42,7 @@ const AdminPanel = () => {
   } = useContext(Context)
   const [tags, setTags] = useState([])
   const [checkedItems, setCheckedItems] = useState({})
+
   useEffect(() => {
     getIngredients()
   }, [])
@@ -81,19 +82,19 @@ const AdminPanel = () => {
 
   const handleCheckboxChange = (item) => {
     setCheckedItems((prevCheckedItems) => {
-      const newCheckedItems = { ...prevCheckedItems };
+      const newCheckedItems = { ...prevCheckedItems }
 
       if (newCheckedItems[item.name]) {
-        delete newCheckedItems[item.name];
+        delete newCheckedItems[item.name]
       } else {
-        newCheckedItems[item.name] = item;
-        newCheckedItems[item.name].checked = true;
+        newCheckedItems[item.name] = item
+        newCheckedItems[item.name].checked = true
       }
 
-      return newCheckedItems;
-    });
-  };
-  
+      return newCheckedItems
+    })
+  }
+
   return (
     <div className='container-fluid'>
       <div className='d-flex mx-5'>
@@ -122,7 +123,7 @@ const AdminPanel = () => {
             modalContent={activeModal}
           />
           <div className='d-flex flex-row justify-content-center mt-5'>
-            <div className='col-4 col-md-3 mt-5'>
+            <div className='col-4 mt-5 text-center'>
               <button
                 className='btn btn-primary'
                 type='submit'
@@ -134,7 +135,7 @@ const AdminPanel = () => {
                 Add new ingredient
               </button>
             </div>
-            <div className='col-6 col-md-5 mt-5'>
+            <div className='col-4 mt-5 text-center'>
               <div className='d-flex'>
                 <input
                   className='form-control'
@@ -144,6 +145,21 @@ const AdminPanel = () => {
                   onChange={filterSearch}
                 />
               </div>
+            </div>
+            <div className='col-4 mt-5 text-center'>
+              <button
+                className='btn btn-primary'
+                type='submit'
+                onClick={() => {
+                  modalToggle(true)
+                  setActiveModal({
+                    type: 'addSalad',
+                    data: Object.values(checkedItems),
+                  })
+                }}
+              >
+                Make salad
+              </button>
             </div>
           </div>
           <Table
