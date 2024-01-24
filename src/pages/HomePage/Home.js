@@ -43,10 +43,10 @@ const Home = () => {
           <button
             className='btn btn-primary'
             type='submit'
-            // onClick={() => {
-            //   modalToggle(true)
-            //   setActiveModal({ type: 'addSalad' })
-            // }}
+            onClick={() => {
+              modalToggle(true)
+              setActiveModal({ type: 'addSalad' })
+            }}
           >
             Add new salad
           </button>
