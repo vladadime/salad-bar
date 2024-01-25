@@ -1,11 +1,13 @@
 import {
   ACTIVE_MODAL,
   ADD_INGREDIENT,
+  ADD_SALAD,
   DELETE_INGREDIENT,
   EDIT_INGREDIENT,
   FILTER_SEARCH,
   FILTER_TOGGLE,
   GET_INGREDIENTS,
+  GET_SALADS,
   MODAL_TOGGLE,
   NAVIGATE,
   SORT_INGREDIENTS,
@@ -23,6 +25,11 @@ const ingredientReducer = (state, { type, payload }) => {
       return {
         ...state,
         ingredients: [...state.ingredients, payload],
+      }
+    case ADD_SALAD:
+      return {
+        ...state,
+        salads: [...state.salads, payload],
       }
     case DELETE_INGREDIENT:
       return {
@@ -57,6 +64,11 @@ const ingredientReducer = (state, { type, payload }) => {
       return {
         ...state,
         ingredients: payload,
+      }
+    case GET_SALADS:
+      return {
+        ...state,
+        salads: payload,
       }
     case MODAL_TOGGLE:
       return {
