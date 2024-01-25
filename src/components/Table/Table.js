@@ -46,9 +46,9 @@ const Table = ({ actions, data, headCols, sort, selectable, checkedItems, handle
                       </td>
                     )}
                     <td>{row.name}</td>
-                    <td>
+                    {row.image && <td>
                       <img className='small-img' src={row.image} alt='' />
-                    </td>
+                    </td> }
                     <td>{row.calories}</td>
                     <td>{row.tag}</td>
                     {actions && Object.keys(actions).length && (
